@@ -877,3 +877,275 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
 						]
 					}}'
 ```
+
+# Платежі
+Усі платежі
+`curl "https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json?api_token=API_TOKEN"`
+
+Ви можете передати ті самі параметри, які передаються в додатку (на сторінці списку платежів)
+Завантаження вибраного платежу за ідентифікатором
+
+`curl "https://YOUR_DOMAIN.fakturownia.pl/banking/payment/100.json?api_token=API_TOKEN"`
+
+Додавання нового платежу
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json \
+				-H 'Accept: application/json' \
+				-H 'Content-Type: application/json' \
+				-d '{
+					"api_token": "API_TOKEN",
+					"banking_payment": {
+						"name":"Payment 001",
+						"price": 100.05,
+						"invoice_id": null,
+						"paid":true,
+						"kind": "api"
+				    }}'
+				    ```
+
+Завантаження платежу разом із закріпленими даними рахунків-фактур
+`curl "https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json?include=invoices&api_token=API_TOKEN"`
+
+Додавання нового платежу, пов’язаного з наявними рахунками-фактурами
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json \
+				-H 'Accept: application/json' \
+				-H 'Content-Type: application/json' \
+				-d '{
+					"api_token": "API_TOKEN",
+					"banking_payment": {
+						"name":"Payment 003",
+						"price": 200,
+						"invoice_ids": [555, 666],
+						"paid":true,
+						"kind": "api"
+						}}'
+						```
+						
+Слід пам’ятати, що рахунки-фактури будуть оплачуватись у тому порядку, в якому вони були надані в атрибуті `invoice_ids` - якщо рахунок-фактура з id=555 був виданий за 100 гривень, а рахунок-фактура з id=666 за 200 гривень, то після додавання платежу перший рахунок буде оплачено в повному обсязі, а інший - наполовину.
+
+Оновлення платежу
+
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments/555.json
+				-X PATCH
+				-H 'Accept: application/json'
+				-H 'Content-Type: application/json'
+				-d '{"api_token": "API_TOKEN",
+					"banking_payment": {
+						"name": "New payment name",
+						"price": 100
+						}}'
+```
+Видалення платежу
+`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/banking/payments/555.json?api_token=API_TOKEN"`
+
+# Категорії
+Список усіх категорій
+`curl "http://YOUR_DOMAIN.fakturownia.pl/categories.json?api_token=API_TOKEN"`
+
+Завантаження кожної категорії за ідентифікатором
+`curl "http://YOUR_DOMAIN.fakturownia.pl/categories/100.json?api_token=API_TOKEN"`
+
+Додавання нової категорії
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/categories.json
+				-H 'Accept: application/json'
+				-H 'Content-Type: application/json'
+				-d '{
+				"api_token": "API_TOKEN",
+				"category": {
+					"name":"my_category",
+					"description": null
+				}}'
+
+```
+
+Оновлення категорії
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/categories/100.json
+				-X PUT
+				-H 'Accept: application/json'
+				-H 'Content-Type: application/json'
+				-d '{
+				"api_token": "API_TOKEN",
+				"category": {
+					"name":"my_category",
+					"description": "new_description"
+				}}'
+```
+
+Видалення категорії з заданим ідентифікатором
+`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/categories/100.json?api_token=API_TOKEN"`
+
+# Склади
+Список усіх складів
+`curl "http://YOUR_DOMAIN.fakturownia.pl/warehouses.json?api_token=API_TOKEN"`
+
+Завантаження кожного складу за ідентифікатором
+`curl "http://YOUR_DOMAIN.fakturownia.pl/warehouses/100.json?api_token=API_TOKEN"`
+
+Додавання нового складу
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/warehouses.json
+				-H 'Accept: application/json'
+				-H 'Content-Type: application/json'
+				-d '{
+				"api_token": "API_TOKEN",
+				"warehouse": {
+					"name":"my_warehouse",
+					"kind": null,
+					"description": null
+				}}'
+```
+
+Оновлення складу
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/warehouses/100.json
+				-X PUT
+				-H 'Accept: application/json'
+				-H 'Content-Type: application/json'
+				-d '{
+				"api_token": "API_TOKEN",
+				"warehouse": {
+					"name":"my_category",
+					"kind": null,
+					"description": "new_description"
+				}}'
+```
+
+Видалення складу з даним ідентифікатором
+`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/warehouses/100.json?api_token=API_TOKEN"`
+
+# Відділи
+Перелік усіх відділів
+`curl "http://YOUR_DOMAIN.fakturownia.pl/departments.json?api_token=API_TOKEN"`
+
+Завантаження кожного розділу за ідентифікатором
+`curl "http://YOUR_DOMAIN.fakturownia.pl/departments/100.json?api_token=API_TOKEN"`
+
+Додавання нового розділу
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/departments.json
+				-H 'Accept: application/json'
+				-H 'Content-Type: application/json'
+				-d '{
+				"api_token": "API_TOKEN",
+				"department": {
+					"name":"my_warehouse",
+					"shortcut": "short_name",
+					"tax_no": "-"
+				}}'
+```
+Оновлення відділу
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/departments/100.json
+        -X PUT
+        -H 'Accept: application/json'
+        -H 'Content-Type: application/json'
+        -d '{
+        "api_token": "API_TOKEN",
+        "department": {
+          "name":"new_name",
+          "shortcut": "new_short_name",
+          "tax_no": "xxx-xxx-xx-xx"
+        }}'
+```
+Видалення відділу з даним ідентифікатором
+`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/departments/100.json?api_token=API_TOKEN"`
+
+# Вхід та завантаження даних через API
+```
+curl https://app.fakturownia.pl/login.json \
+    -H 'Accept: application/json'  \
+    -H 'Content-Type: application/json' \
+    -d '{
+            "login": "login_or_email",
+            "password": "password",
+	    "integration_token": ""
+    }'
+```
+Цей запит повертає маркер та інформацію про URL-адресу облікового запису в BitFaktura (поля префіксу та URL-адреси):
+```
+{
+	"login":"marcin",
+	"email":"email@test.pl",
+	"prefix":"YYYYYYY",
+	"url":"https://YYYYYYY.fakturownia.pl",
+	"first_name":"Jan",
+	"last_name":"Kowalski",
+	"api_token":"XXXXXXXXXXXXXX"
+}
+```
+
+ПРИМІТКА: api_token повертається, лише якщо у даного користувача генерується маркер API (користувач може додати його в налаштуваннях облікового запису)
+
+# Облікові записи системи
+Це варіант для Партнерів, які хочуть налаштувати облікові записи BitFaktura з рівня їх застосування. Наприклад, вони можуть бути розробниками інтернет -магазинів, систем бронювання тощо чи інших систем, які хочуть надати своїм користувачам функціональність виставлення рахунків-фактур.
+
+Клієнт на порталі Партнера може створити обліковий запис однією кнопкою і одразу розпочати виставлення рахунків-фактур (йому не потрібно створювати обліковий запис на BitFaktura.com.ua)
+
+Поля: user.login, user.from_partner, user, company не є обов'язковими
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/account.json \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+            "api_token": "API_TOKEN",
+            "account": {
+                "prefix": "prefix1",
+		"lang": "pl"
+            },
+            "user": {
+                "login": "login1",
+                "email": "email1@email.pl",
+                "password": "password1",
+                "from_partner": "PARTNER_CODE"
+            },
+            "company": {
+                "name": "Company1",
+                "tax_no": "5252445700",
+                "post_code": "00-112",
+                "city": "Warsaw",
+                "street": "Street 1/10",
+                "person": "Jan Nowak",
+                "bank": "Bank1",
+                "bank_account": "111222333444555666111"
+            },
+	    "integration_token": ""
+        }'
+```
+
+ПРИМІТКА. Якщо потрібно завантажити поточного користувача api_token, потрібен параметр Integration_token (щоб отримати integration_token для вашої зінтегрованої програми, зв'яжіться з нами)
+
+Після створення облікового запису повертається наступне:
+```
+{
+	"prefix":"prefix126", - prefix utworzonego konta (moze byc innny niz podany, gdy podany już istniał)
+	"api_token":"62YPJfIekoo111111", - kod dostepu do utworzonego konta
+	"url":"https://prefix126.fakturownia.pl", - url utworzonego konta
+	"login":"login1", - login użytkownika  (moze byc innny niz podany, gdy podany już istniał)
+	"email":"email1@email.pl"
+}
+```
+
+Інші поля, доступні при створенні нового облікового запису (важливе для інтеграції)
+```
+	"account": {
+		"prefix": "prefix-konta",
+		"lang": "pl",
+		"integration_fast_login": true - umożliwia automatyczne logowanie Twoich użytkowników w Fakturowni
+		"integration_logout_url": "http://twojastrona.pl/" - umożliwia powrót Twoich użytkowników na Twoją stronę po ich wylogowaniu się z Fakturowni
+	}
+```
+
+Завантаження даних облікового запису:
+`curl "https://YOUR_DOMAIN.fakturownia.pl/account.json?api_token=API_TOKEN&integration_token="`
+
+# Приклади в PHP i Ruby
+https://github.com/radgost/fakturownia-api/blob/master/example1.php/
+
+https://github.com/radgost/fakturownia-api/blob/master/example1.rb/
+
+Ruby Gem для інтерграції з BitFaktura.com.ua: https://github.com/kkempin/fakturownia/
+
