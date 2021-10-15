@@ -73,9 +73,10 @@ curl https://TWIJ_DOMEN.bitfaktura.com.ua/invoices.json \
             ]
         }
     }' 
-    ```
+```
 Додавання нового рахунка-фактури - версія мінімум (лише обов’язкові поля), коли у нас є ідентифікатор продукту (product_id), покупець (client_id) та постачальник (department_id), тоді нам не потрібно надавати повні дані. За бажанням ви також можете вказати ідентифікатор одержувача (recipient_id). Рахунок-фактура з ПДВ буде виставлений з поточною датою та терміном оплати 5 днів.
-    ```
+
+```
 curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
@@ -87,11 +88,12 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
                 {"product_id": 1, "quantity":2}
             ]
         }}'
-    ```
+```
     
 Додавання нового рахунка-фактури - документа, подібного до рахунка-фактури зі вказаним ідентифікатором (copy_invoice_from).
 Додавання ідентичного рахунку-фактури зазначеного типу.
-   ```
+
+```
 curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
@@ -102,9 +104,11 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
             "kind": "RODZAJ_FAKTURY"
         }
     }'
-   ```
+```
+
 Додавання авансового рахунку-фактури на основі замовлення -% від повної суми
-   ```
+
+```
 curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
@@ -118,12 +122,11 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
             "position_name": "Zaliczka na wykonanie zamówienia ZAM-NR"
         }
     }'
-
    ```
    
    Додавання авансового рахунку-фактури на основі замовлення - зазначеної суми з ПДВ
    
-      ```
+```
       curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
@@ -137,10 +140,11 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
             "position_name": "Zaliczka na wykonanie zamówienia ZAM-NR"
         }
     }'
-   ```
+```
    
    Додавання остаточного рахунку-фактури на основі замовлення та авансових рахунків-фактур
-  ```
+
+```
   curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
@@ -152,9 +156,11 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
             "invoice_ids": [ID_ZALICZKI_1, ID_ZALICZKI_2, ...]
         }
     }'
-  ```
+```
+
   Додавання накладної з ПДВ на основі рахунку проформи
-  ```
+
+```
 curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
@@ -165,9 +171,11 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
             "kind": "vat"
         }
     }'
-  ```
-  Додавання нового виправленого рахунка-фактури
-   ```
+```
+
+Додавання нового виправленого рахунка-фактури
+
+```
   curl http://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
@@ -202,7 +210,8 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
         }}'
  ```
 Оновлення рахунка-фактури
- ```
+
+```
  curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices/111.json \
     -X PUT \
     -H 'Accept: application/json'  \
@@ -213,7 +222,7 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
             "buyer_name": "Nowa nazwa klienta Sp. z o.o."
         }
     }'
- ```
+```
  
  Оновлення позиції рахунка-фактури - щоб відредагувати позицію рахунка-фактури, введіть ідентифікатор позиції.
  ```
@@ -346,9 +355,7 @@ curl -X POST https://YOUR_DOMAIN.bitfaktura.com.ua/invoices/INVOICE_ID/add_attac
 # Посилання для попереднього перегляду рахунку-фактури та завантаження у PDF
 
 Після завантаження даних рахунків-фактур, наприклад:
-```
-curl https://twojaDomena.bitfaktura.com.ua/invoices/100.json?api_token=API_TOKEN
-```
+`curl https://twojaDomena.bitfaktura.com.ua/invoices/100.json?api_token=API_TOKEN`
 
 API повертає, серед іншого поле маркера, на основі якого можна отримати посилання для перегляду рахунку-фактури та завантаження PDF-файлу зі згенерованим рахунком -фактурою. Такі посилання дають змогу посилатися на вибраний рахунок-фактуру без необхідності входити в систему - тобто ми можемо, наприклад, надіслати ці посилання клієнту, який отримає доступ до рахунка-фактури та PDF.
 
@@ -377,6 +384,7 @@ PDF: `https://YourDomain.bitfaktura.com.ua/invoice/{{token}}.pdf`
 `DELETE /invoices/1.json` анулювання рахунку -фактури
 
 Приклад - додавання нового рахунка-фактури (версія мінімум, якщо у є ідентифікатор продукту, ідентифікатор покупця та продавця, тоді нам не потрібно надавати повні дані). Рахунок-фактура з ПДВ буде виставлений з поточною датою та терміном оплати 5 днів. Поле department_id вказує компанію (або відділ), що виставляє рахунок -фактуру (його можна отримати, натиснувши компанію в меню Налаштування> Дані фірмии)
+
 ```
 curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
@@ -392,6 +400,7 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 ```
 
 Поля на рахунку-фактурі
+
 ```
 "number" : "13/2012", - numer faktury (jeśli nie będzie podany wygeneruje się automatycznie)
 "kind" : "vat", - rodzaj faktury (vat, proforma, bill, receipt, advance, correction, vat_mp, invoice_other, vat_margin, kp, kw, final, estimate)
@@ -497,6 +506,7 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 
 Значення полів
 Поле: `kind`
+
 ```
 	"vat" - faktura VAT
 	"proforma" - faktura Proforma
@@ -526,6 +536,7 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 ```
 
 Поле: `lang`
+
 ```
 	"pl" - рахунок-фактура польською
 	"en" - англійска мова
@@ -553,12 +564,14 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 ```
 
 Поле: `income`
+
 ```
 	"1" - рахунок-фактура (дохід)
 	"0" - рахунок-фактура (кошти)
 ```
 
 Поле: `accounting_kind`
+
 ```
   "purchases" - Закупівля товару/послуги
   "expenses" - Витрати бізнесу
@@ -570,6 +583,7 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 ```
 
 Поле: `payment_type`
+
 ```
 	"transfer" - банківський переказ
 	"card" - картка
@@ -584,8 +598,10 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 	"paypal" - PayPal
 	"off" - "не відображати"
 	"будь-який_інший_текст"
+```
   
-  Поле: `status`
+Поле: `status`
+
 ```
 	"issued" - виставлена
 	"sent" - надіслана
@@ -594,7 +610,8 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 	"rejected" - відхилена
 ```
 
- Поле: `discount_kind` - вид знижки
+Поле: `discount_kind` - вид знижки
+
 ```
 	"percent_unit" - розраховується з ціни за одиницю
 	"percent_total" - розраховується з загальної ціни
@@ -602,9 +619,12 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 ```
  
 # Клієнти
+
 Список клієнтів
 `curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&page=1"`
+
 Пошук клієнтів за іменем, електронною поштою, прізвищем або ідентифікаційним номером податку
+
 ```
 curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&name=CLIENT_NAME"
 curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&email=EMAIL_ADDRESS"
@@ -613,16 +633,14 @@ curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&tax_no
 ```
 
 Завантаження вибраного клієнта за ідентифікатором
-```
-curl "https://YOUR_DOMAIN.fakturownia.pl/clients/100.json?api_token=API_TOKEN"
-```
+
+`curl "https://YOUR_DOMAIN.fakturownia.pl/clients/100.json?api_token=API_TOKEN"`
 
 Завантаження вибраного клієнта за зовнішнім ідентифікатором
-```
- curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?external_id=100&api_token=API_TOKEN"
-```
+`curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?external_id=100&api_token=API_TOKEN"`
 
 Додавання клієнта
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/clients.json \
     -H 'Accept: application/json' \
@@ -644,6 +662,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/clients.json \
 ```
 
 Оновлення клієнта
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/clients/111.json \
     -X PUT \
@@ -666,24 +685,29 @@ curl https://YOUR_DOMAIN.fakturownia.pl/clients/111.json \
 ```
 
 Видалення клієнта
-```
-curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/clients/CLIENT_ID.json?api_token=API_TOKEN"
-```
 
- # Продукти
+`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/clients/CLIENT_ID.json?api_token=API_TOKEN"`
+
+# Продукти
+
 Список продуктів
+
 `curl "https://YOUR_DOMAIN.fakturownia.pl/products.json?api_token=API_TOKEN&page=1"`
 
 Перелік продуктів з наявністю на складі
+
 `curl "https://YOUR_DOMAIN.fakturownia.pl/products.json?api_token=API_TOKEN&warehouse_id=WAREHOUSE_ID&page=1"`
 
 Завантаження вибраного товару за ідентифікатором
+
 `curl "https://YOUR_DOMAIN.fakturownia.pl/products/100.json?api_token=API_TOKEN"`
 
 Завантаження вибраного товару за ідентифікатором з рівнем складів
+
 `curl "https://YOUR_DOMAIN.fakturownia.pl/products/100.json?api_token=API_TOKEN&warehouse_id=WAREHOUSE_ID"`
 
 Додавання товару
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/products.json \
     -H 'Accept: application/json'  \
@@ -696,7 +720,9 @@ curl https://YOUR_DOMAIN.fakturownia.pl/products.json \
             "tax": "23"
         }}'
 ```
+
 Оновлення продукту
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/products/333.json \
     -X PUT \
@@ -710,6 +736,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/products/333.json \
 	    "tax": "23"
         }}'
 ```
+
 #Примітка# : Ціна нетто розраховується на основі валової ціни та вартості податку, її не можна редагувати безпосередньо за допомогою API.
 
 # Прайс-листи
@@ -719,6 +746,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/products/333.json \
 Ви можете передати ті самі параметри, які вказані в додатку (на сторінці списку рахунків-фактур)
 
 Додавання прайс-листа
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/price_lists.json
                 -H 'Accept: application/json'
@@ -746,6 +774,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/price_lists.json
 ```
 
 Оновлення прайсу
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/price_lists/100.json
 		-X PUT
@@ -761,18 +790,22 @@ curl https://YOUR_DOMAIN.fakturownia.pl/price_lists/100.json
 ```
 
 Видалення прайс-листа
+
 `curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/price_lists/100.json?api_token=API_TOKEN"`
 
 Складські документи
 Всі складські документи
+
 `curl "https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json?api_token=API_TOKEN"`
 
 Ви можете передати ті самі параметри, які вказані в додатку (на сторінці списку рахунків-фактур)
 
 Завантажте вибраний документ за ідентифікатором
+
 `curl "https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json?api_token=API_TOKEN"`
 
 Додавання складського документа (переміщення)
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
                 -H 'Accept: application/json'
@@ -791,7 +824,9 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
                     ]
                 }}'
 ```
+
 Додавання складського документа (прийняття)
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 				-H 'Accept: application/json'
@@ -812,7 +847,9 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 				}}'
 
 ```
+
 Додавання складського документа (видання)
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 				-H 'Accept: application/json'
@@ -832,7 +869,9 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 					]
 				}}'
 ```
+
 Додавання інвентарного документа (прийняття) для існуючого клієнта, відділу та товару
+
 ```curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
@@ -851,7 +890,9 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 					]
 				}}'
 ```
+
 Оновлення документів
+
 ```
 curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
 			 	-X PUT
@@ -862,11 +903,14 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
 						"client_name": "New client name SA"
 				    }}'
 ```
+
 Вилучення документа
+
 `curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/100.json?api_token=API_TOKEN"`
 
 Поєднання наявних рахунків-фактур та складських документів
-```curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
+```
+curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
 				-X PUT
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
