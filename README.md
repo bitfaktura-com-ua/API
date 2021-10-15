@@ -1,9 +1,31 @@
-# API
+# API BitFaktura
 Опис того, як інтегрувати власну програму або послугу з системою BitFaktura.com.ua
 
 Завдяки API ви можете виставляти рахунки-фактури / рахунки / квитанції з інших систем та керувати цими документами, а також клієнтами та продуктами.
 
 Робочі приклади виклику API BitFaktura можна також знайти у системі BitFaktura (після входу в систему) у меню **Налаштування> API** та на веб -сайті: https://app.bitfaktura.com.ua/api
+
+# Зміст
+* [API](#api)
+* [Додаткові параметри](#додаткові-параметри-доступні-під-час-завантаженя-списку-записів)
+* [Приклади викликів](#приклади-викликів)
+* [Посилання для попереднього перегляду рахунку-фактури та завантаження у PDF](#посилання-для-попереднього-перегляду-рахунку-фактури-та-завантаження-у-pdf)
+* [Приклади використання в PHP - придбання курсу](#приклади-використання-в-php---придбання-курсу)
+* [Рахунки-фактури](#рахунки-фактури)
+* [Клієнти](#клієнти)
+* [Продукти](#продукти)
+* [Прайс-листи](#прайс-листи)
+* [Платежі](#платежі)
+* [Категорії](#категорії)
+* [Склади](#склади)
+* [Відділи](#відділи)
+* [Вхід та завантаження даних через API](#вхід-та-завантаження-даних-через-api)
+* [Облікові записи системи](#облікові-записи-системи)
+* [Приклади в PHP i Ruby](#приклади-в-php-i-ruby)
+
+# API
+
+API_TOKEN token необхідно завантажити з налаштувань програми ("Налаштування -> Налаштування акаунта -> Інтеграція -> Код авторизації API")
 
 # Додаткові параметри доступні під час завантаженя списку записів
 До викликів можна передавати додаткові параметри - ті самі параметри, які використовуються у програмі, наприклад ` page=` , ` period=`  тощо.
@@ -25,22 +47,22 @@ more (тут потрібно надати додаткові параметри
 
 # Приклади викликів
 Завантаження списку рахунків-фактур за поточний місяць
-`curl https://twijdomen.bitfaktura.com.ua/invoices.json?period=this_month&api_token=API_TOKEN&page=1`
+`curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json?period=this_month&api_token=API_TOKEN&page=1`
 
 Завантаження списку рахунків-фактур з їх позиціями
-`curl https://twijdomen.bitfaktura.com.ua/invoices.json?include_positions=true&api_token=API_TOKEN&page=1`
+`curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json?include_positions=true&api_token=API_TOKEN&page=1`
 
 Рахунки-фактури даного клієнта
-`curl https://twijdomen.bitfaktura.com.ua/invoices.json?client_id=ID_KLIENTA&api_token=API_TOKEN`
+`curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json?client_id=ID_KLIENTA&api_token=API_TOKEN`
 
 Завантаження рахунка-фактури за ідентифікатором
-`curl https://twijdomen.bitfaktura.com.ua/invoices/100.json?api_token=API_TOKEN`
+`curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices/100.json?api_token=API_TOKEN`
 
 Завантаження PDF
-`curl https://twijdomen.bitfaktura.com.ua/invoices/100.pdf?api_token=API_TOKEN`
+`curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices/100.pdf?api_token=API_TOKEN`
 
 Надсилання рахунку-фактури електронною поштою клієнту (на електронну адресу замовника, надану при створенні рахунку-фактури, поле "buyer_email")
-`curl -X POST https://twijdomen.bitfaktura.com.ua/invoices/100/send_by_email.json?api_token=API_TOKEN`
+`curl -X POST https://YOUR_DOMAIN.bitfaktura.com.ua/invoices/100/send_by_email.json?api_token=API_TOKEN`
 
 інші параметри PDF:
 print_option=original - Оригінил
@@ -51,7 +73,7 @@ print_option=duplicate Дуплікат
 Додавання нового рахунка-фактури
 
 ``` 
-curl https://TWIJ_DOMEN.bitfaktura.com.ua/invoices.json \
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -d '{
@@ -272,7 +294,7 @@ curl "https://YOUR_DOMAIN.bitfaktura.com.ua/invoices/111/change_status.json?api_
 
 Завантаження списку визначень періодичних рахунків-фактур
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/recurrings.json?api_token=API_TOKEN
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/recurrings.json?api_token=API_TOKEN
 ```
 Додавання визначення періодичного рахунку-фактури
 ```
@@ -355,7 +377,7 @@ curl -X POST https://YOUR_DOMAIN.bitfaktura.com.ua/invoices/INVOICE_ID/add_attac
 # Посилання для попереднього перегляду рахунку-фактури та завантаження у PDF
 
 Після завантаження даних рахунків-фактур, наприклад:
-`curl https://twojaDomena.bitfaktura.com.ua/invoices/100.json?api_token=API_TOKEN`
+`curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices/100.json?api_token=API_TOKEN`
 
 API повертає, серед іншого поле маркера, на основі якого можна отримати посилання для перегляду рахунку-фактури та завантаження PDF-файлу зі згенерованим рахунком -фактурою. Такі посилання дають змогу посилатися на вибраний рахунок-фактуру без необхідності входити в систему - тобто ми можемо, наприклад, надіслати ці посилання клієнту, який отримає доступ до рахунка-фактури та PDF.
 
@@ -621,28 +643,28 @@ curl https://YOUR_DOMAIN.bitfaktura.com.ua/invoices.json \
 # Клієнти
 
 Список клієнтів
-`curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&page=1"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/clients.json?api_token=API_TOKEN&page=1"`
 
 Пошук клієнтів за іменем, електронною поштою, прізвищем або ідентифікаційним номером податку
 
 ```
-curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&name=CLIENT_NAME"
-curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&email=EMAIL_ADDRESS"
-curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&shortcut=SHORT_NAME"
-curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?api_token=API_TOKEN&tax_no=TAX_NO"
+curl "https://YOUR_DOMAIN.bitfaktura.com.ua/clients.json?api_token=API_TOKEN&name=CLIENT_NAME"
+curl "https://YOUR_DOMAIN.bitfaktura.com.ua/clients.json?api_token=API_TOKEN&email=EMAIL_ADDRESS"
+curl "https://YOUR_DOMAIN.bitfaktura.com.ua/clients.json?api_token=API_TOKEN&shortcut=SHORT_NAME"
+curl "https://YOUR_DOMAIN.bitfaktura.com.ua/clients.json?api_token=API_TOKEN&tax_no=TAX_NO"
 ```
 
 Завантаження вибраного клієнта за ідентифікатором
 
-`curl "https://YOUR_DOMAIN.fakturownia.pl/clients/100.json?api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/clients/100.json?api_token=API_TOKEN"`
 
 Завантаження вибраного клієнта за зовнішнім ідентифікатором
-`curl "https://YOUR_DOMAIN.fakturownia.pl/clients.json?external_id=100&api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/clients.json?external_id=100&api_token=API_TOKEN"`
 
 Додавання клієнта
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/clients.json \
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/clients.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -d '{"api_token": "API_TOKEN",
@@ -664,7 +686,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/clients.json \
 Оновлення клієнта
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/clients/111.json \
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/clients/111.json \
     -X PUT \
     -H 'Accept: application/json'  \
     -H 'Content-Type: application/json'  \
@@ -686,30 +708,30 @@ curl https://YOUR_DOMAIN.fakturownia.pl/clients/111.json \
 
 Видалення клієнта
 
-`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/clients/CLIENT_ID.json?api_token=API_TOKEN"`
+`curl -X DELETE "https://YOUR_DOMAIN.bitfaktura.com.ua/clients/CLIENT_ID.json?api_token=API_TOKEN"`
 
 # Продукти
 
 Список продуктів
 
-`curl "https://YOUR_DOMAIN.fakturownia.pl/products.json?api_token=API_TOKEN&page=1"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/products.json?api_token=API_TOKEN&page=1"`
 
 Перелік продуктів з наявністю на складі
 
-`curl "https://YOUR_DOMAIN.fakturownia.pl/products.json?api_token=API_TOKEN&warehouse_id=WAREHOUSE_ID&page=1"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/products.json?api_token=API_TOKEN&warehouse_id=WAREHOUSE_ID&page=1"`
 
 Завантаження вибраного товару за ідентифікатором
 
-`curl "https://YOUR_DOMAIN.fakturownia.pl/products/100.json?api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/products/100.json?api_token=API_TOKEN"`
 
 Завантаження вибраного товару за ідентифікатором з рівнем складів
 
-`curl "https://YOUR_DOMAIN.fakturownia.pl/products/100.json?api_token=API_TOKEN&warehouse_id=WAREHOUSE_ID"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/products/100.json?api_token=API_TOKEN&warehouse_id=WAREHOUSE_ID"`
 
 Додавання товару
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/products.json \
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/products.json \
     -H 'Accept: application/json'  \
     -H 'Content-Type: application/json'  \
     -d '{"api_token": "API_TOKEN",
@@ -724,7 +746,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/products.json \
 Оновлення продукту
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/products/333.json \
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/products/333.json \
     -X PUT \
     -H 'Accept: application/json'  \
     -H 'Content-Type: application/json'  \
@@ -741,14 +763,14 @@ curl https://YOUR_DOMAIN.fakturownia.pl/products/333.json \
 
 # Прайс-листи
 Перелік прайс-листів
-`curl "https://YOUR_DOMAIN.fakturownia.pl/price_lists.json?api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/price_lists.json?api_token=API_TOKEN"`
 
 Ви можете передати ті самі параметри, які вказані в додатку (на сторінці списку рахунків-фактур)
 
 Додавання прайс-листа
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/price_lists.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/price_lists.json
                 -H 'Accept: application/json'
                 -H 'Content-Type: application/json'
                 -d '{
@@ -776,7 +798,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/price_lists.json
 Оновлення прайсу
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/price_lists/100.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/price_lists/100.json
 		-X PUT
                 -H 'Accept: application/json'
                 -H 'Content-Type: application/json'
@@ -791,23 +813,23 @@ curl https://YOUR_DOMAIN.fakturownia.pl/price_lists/100.json
 
 Видалення прайс-листа
 
-`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/price_lists/100.json?api_token=API_TOKEN"`
+`curl -X DELETE "https://YOUR_DOMAIN.bitfaktura.com.ua/price_lists/100.json?api_token=API_TOKEN"`
 
 Складські документи
 Всі складські документи
 
-`curl "https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json?api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents.json?api_token=API_TOKEN"`
 
 Ви можете передати ті самі параметри, які вказані в додатку (на сторінці списку рахунків-фактур)
 
 Завантажте вибраний документ за ідентифікатором
 
-`curl "https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json?api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents/555.json?api_token=API_TOKEN"`
 
 Додавання складського документа (переміщення)
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents.json
                 -H 'Accept: application/json'
                 -H 'Content-Type: application/json'
                 -d '{
@@ -828,7 +850,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 Додавання складського документа (прийняття)
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents.json
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
 				-d '{
@@ -851,7 +873,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 Додавання складського документа (видання)
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents.json
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
 				-d '{
@@ -872,7 +894,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 
 Додавання інвентарного документа (прийняття) для існуючого клієнта, відділу та товару
 
-```curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
+```curl https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents.json
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
 				-d '{
@@ -894,7 +916,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents.json
 Оновлення документів
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents/555.json
 			 	-X PUT
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
@@ -906,11 +928,11 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
 
 Вилучення документа
 
-`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/100.json?api_token=API_TOKEN"`
+`curl -X DELETE "https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents/100.json?api_token=API_TOKEN"`
 
 Поєднання наявних рахунків-фактур та складських документів
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/warehouse_documents/555.json
 				-X PUT
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
@@ -925,16 +947,16 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouse_documents/555.json
 
 # Платежі
 Усі платежі
-`curl "https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json?api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/banking/payments.json?api_token=API_TOKEN"`
 
 Ви можете передати ті самі параметри, які передаються в додатку (на сторінці списку платежів)
 Завантаження вибраного платежу за ідентифікатором
 
-`curl "https://YOUR_DOMAIN.fakturownia.pl/banking/payment/100.json?api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/banking/payment/100.json?api_token=API_TOKEN"`
 
 Додавання нового платежу
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json \
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/banking/payments.json \
 				-H 'Accept: application/json' \
 				-H 'Content-Type: application/json' \
 				-d '{
@@ -949,11 +971,11 @@ curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json \
 				    ```
 
 Завантаження платежу разом із закріпленими даними рахунків-фактур
-`curl "https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json?include=invoices&api_token=API_TOKEN"`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/banking/payments.json?include=invoices&api_token=API_TOKEN"`
 
 Додавання нового платежу, пов’язаного з наявними рахунками-фактурами
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json \
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/banking/payments.json \
 				-H 'Accept: application/json' \
 				-H 'Content-Type: application/json' \
 				-d '{
@@ -972,7 +994,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments.json \
 Оновлення платежу
 
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments/555.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/banking/payments/555.json
 				-X PATCH
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
@@ -983,18 +1005,18 @@ curl https://YOUR_DOMAIN.fakturownia.pl/banking/payments/555.json
 						}}'
 ```
 Видалення платежу
-`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/banking/payments/555.json?api_token=API_TOKEN"`
+`curl -X DELETE "https://YOUR_DOMAIN.bitfaktura.com.ua/banking/payments/555.json?api_token=API_TOKEN"`
 
 # Категорії
 Список усіх категорій
-`curl "http://YOUR_DOMAIN.fakturownia.pl/categories.json?api_token=API_TOKEN"`
+`curl "http://YOUR_DOMAIN.bitfaktura.com.ua/categories.json?api_token=API_TOKEN"`
 
 Завантаження кожної категорії за ідентифікатором
-`curl "http://YOUR_DOMAIN.fakturownia.pl/categories/100.json?api_token=API_TOKEN"`
+`curl "http://YOUR_DOMAIN.bitfaktura.com.ua/categories/100.json?api_token=API_TOKEN"`
 
 Додавання нової категорії
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/categories.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/categories.json
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
 				-d '{
@@ -1008,7 +1030,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/categories.json
 
 Оновлення категорії
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/categories/100.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/categories/100.json
 				-X PUT
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
@@ -1021,18 +1043,18 @@ curl https://YOUR_DOMAIN.fakturownia.pl/categories/100.json
 ```
 
 Видалення категорії з заданим ідентифікатором
-`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/categories/100.json?api_token=API_TOKEN"`
+`curl -X DELETE "https://YOUR_DOMAIN.bitfaktura.com.ua/categories/100.json?api_token=API_TOKEN"`
 
 # Склади
 Список усіх складів
-`curl "http://YOUR_DOMAIN.fakturownia.pl/warehouses.json?api_token=API_TOKEN"`
+`curl "http://YOUR_DOMAIN.bitfaktura.com.ua/warehouses.json?api_token=API_TOKEN"`
 
 Завантаження кожного складу за ідентифікатором
-`curl "http://YOUR_DOMAIN.fakturownia.pl/warehouses/100.json?api_token=API_TOKEN"`
+`curl "http://YOUR_DOMAIN.bitfaktura.com.ua/warehouses/100.json?api_token=API_TOKEN"`
 
 Додавання нового складу
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/warehouses.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/warehouses.json
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
 				-d '{
@@ -1046,7 +1068,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouses.json
 
 Оновлення складу
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/warehouses/100.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/warehouses/100.json
 				-X PUT
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
@@ -1060,18 +1082,18 @@ curl https://YOUR_DOMAIN.fakturownia.pl/warehouses/100.json
 ```
 
 Видалення складу з даним ідентифікатором
-`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/warehouses/100.json?api_token=API_TOKEN"`
+`curl -X DELETE "https://YOUR_DOMAIN.bitfaktura.com.ua/warehouses/100.json?api_token=API_TOKEN"`
 
 # Відділи
 Перелік усіх відділів
-`curl "http://YOUR_DOMAIN.fakturownia.pl/departments.json?api_token=API_TOKEN"`
+`curl "http://YOUR_DOMAIN.bitfaktura.com.ua/departments.json?api_token=API_TOKEN"`
 
 Завантаження кожного розділу за ідентифікатором
-`curl "http://YOUR_DOMAIN.fakturownia.pl/departments/100.json?api_token=API_TOKEN"`
+`curl "http://YOUR_DOMAIN.bitfaktura.com.ua/departments/100.json?api_token=API_TOKEN"`
 
 Додавання нового розділу
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/departments.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/departments.json
 				-H 'Accept: application/json'
 				-H 'Content-Type: application/json'
 				-d '{
@@ -1084,7 +1106,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/departments.json
 ```
 Оновлення відділу
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/departments/100.json
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/departments/100.json
         -X PUT
         -H 'Accept: application/json'
         -H 'Content-Type: application/json'
@@ -1097,11 +1119,11 @@ curl https://YOUR_DOMAIN.fakturownia.pl/departments/100.json
         }}'
 ```
 Видалення відділу з даним ідентифікатором
-`curl -X DELETE "https://YOUR_DOMAIN.fakturownia.pl/departments/100.json?api_token=API_TOKEN"`
+`curl -X DELETE "https://YOUR_DOMAIN.bitfaktura.com.ua/departments/100.json?api_token=API_TOKEN"`
 
 # Вхід та завантаження даних через API
 ```
-curl https://app.fakturownia.pl/login.json \
+curl https://app.bitfaktura.com.ua/login.json \
     -H 'Accept: application/json'  \
     -H 'Content-Type: application/json' \
     -d '{
@@ -1116,7 +1138,7 @@ curl https://app.fakturownia.pl/login.json \
 	"login":"marcin",
 	"email":"email@test.pl",
 	"prefix":"YYYYYYY",
-	"url":"https://YYYYYYY.fakturownia.pl",
+	"url":"https://YYYYYYY.bitfaktura.com.ua",
 	"first_name":"Jan",
 	"last_name":"Kowalski",
 	"api_token":"XXXXXXXXXXXXXX"
@@ -1132,7 +1154,7 @@ curl https://app.fakturownia.pl/login.json \
 
 Поля: user.login, user.from_partner, user, company не є обов'язковими
 ```
-curl https://YOUR_DOMAIN.fakturownia.pl/account.json \
+curl https://YOUR_DOMAIN.bitfaktura.com.ua/account.json \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -d '{
@@ -1168,7 +1190,7 @@ curl https://YOUR_DOMAIN.fakturownia.pl/account.json \
 {
 	"prefix":"prefix126", - prefix utworzonego konta (moze byc innny niz podany, gdy podany już istniał)
 	"api_token":"62YPJfIekoo111111", - kod dostepu do utworzonego konta
-	"url":"https://prefix126.fakturownia.pl", - url utworzonego konta
+	"url":"https://prefix126.bitfaktura.com.ua", - url utworzonego konta
 	"login":"login1", - login użytkownika  (moze byc innny niz podany, gdy podany już istniał)
 	"email":"email1@email.pl"
 }
@@ -1180,17 +1202,17 @@ curl https://YOUR_DOMAIN.fakturownia.pl/account.json \
 		"prefix": "prefix-konta",
 		"lang": "pl",
 		"integration_fast_login": true - umożliwia automatyczne logowanie Twoich użytkowników w Fakturowni
-		"integration_logout_url": "http://twojastrona.pl/" - umożliwia powrót Twoich użytkowników na Twoją stronę po ich wylogowaniu się z Fakturowni
+		"integration_logout_url": "http://twojawww.ua/" - umożliwia powrót Twoich użytkowników na stronę po ich wylogowaniu się z Fakturowni
 	}
 ```
 
 Завантаження даних облікового запису:
-`curl "https://YOUR_DOMAIN.fakturownia.pl/account.json?api_token=API_TOKEN&integration_token="`
+`curl "https://YOUR_DOMAIN.bitfaktura.com.ua/account.json?api_token=API_TOKEN&integration_token="`
 
 # Приклади в PHP i Ruby
-https://github.com/radgost/fakturownia-api/blob/master/example1.php/
+https://github.com/radgost/bitfaktura-api/blob/master/example1.php/
 
-https://github.com/radgost/fakturownia-api/blob/master/example1.rb/
+https://github.com/radgost/bitfaktura-api/blob/master/example1.rb/
 
 Ruby Gem для інтерграції з BitFaktura.com.ua: https://github.com/kkempin/fakturownia/
 
